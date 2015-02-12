@@ -21,6 +21,9 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({BagOfWordsTest.class, LDATest.class, LDACollapsedGibbsSamplerTest.class})
+@SuiteClasses({BagOfWordsTest.class,
+               LDATest.class,
+               LDACollapsedGibbsSamplerTest.class,
+               LDAInferenceProperties.class})
 public class AllTests {
 }

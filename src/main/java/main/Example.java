@@ -30,7 +30,7 @@ public class Example {
         BagOfWords bow = new BagOfWords("src/test/resources/docword.kos.txt");
         
         final int numTopics = 10;
-        LDA lda = new LDA(0.1, 0.1, numTopics, bow, LDAInferenceMethod.CGS);
+        LDA lda = new LDA(0.1, 0.1, numTopics, bow, LDAInferenceMethod.CGS, "src/test/resources/lda.properties");
         lda.readVocabs("src/test/resources/vocab.kos.txt");
         lda.run();
         System.out.println(LDAUtils.computePerplexity(lda, lda.getBow()));

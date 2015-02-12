@@ -39,17 +39,47 @@ public class LDACollapsedGibbsSampler implements LDAInference {
     private List<Integer> topicSumCount;
     private int numIteration;
     
+    private static final long DEFAULT_SEED = 0L;
+    private static final int DEFAULT_NUM_ITERATION = 100;
+    
     // ready for Gibbs sampling
     private boolean ready;
 
     public LDACollapsedGibbsSampler() {
         ready = false;
     }
-
+    
+    public void setUp(LDA lda, LDAInferenceProperties properties) {
+        if (properties == null) {
+            setUp(lda);
+            return;
+        }
+        
+        this.lda = lda;
+        initializeContainers();
+        
+        final long seed = properties.seed() != null ? properties.seed() : DEFAULT_SEED;
+        initializeTopicAssignment(seed);
+        
+        this.numIteration
+            = properties.numIteration() != null ? properties.numIteration() : DEFAULT_NUM_ITERATION;
+        this.ready = true;
+    }
+    
     public void setUp(LDA lda) {
         if (lda == null) throw new NullPointerException();
 
         this.lda = lda;
+        initializeContainers();
+        
+        initializeTopicAssignment(DEFAULT_SEED);
+        
+        this.numIteration = DEFAULT_NUM_ITERATION;
+        this.ready = true;
+    }
+    
+    private void initializeContainers() {
+        assert lda != null;
         topicAssignment = Stream.generate(() -> new ArrayList<Integer>())
                                 .limit(this.lda.getBow().getNumDocs())
                                 .collect(Collectors.toList());
@@ -62,11 +92,6 @@ public class LDACollapsedGibbsSampler implements LDAInference {
         topicSumCount   = Stream.generate(() -> 0)
                                 .limit(this.lda.getNumTopics())
                                 .collect(Collectors.toList());
-        
-        initializeTopicAssignment(0L);
-        
-        this.numIteration = 10;
-        this.ready = true;
     }
 
     public boolean isReady() {

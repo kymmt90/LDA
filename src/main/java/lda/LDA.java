@@ -30,17 +30,37 @@ public class LDA {
     private final BagOfWords bow;
     private final Map<Integer, String> vocabs;
     private final LDAInference inference;
+    private LDAInferenceProperties properties;
     private boolean trained;
 
     public LDA(final double alpha, final double beta, final int numTopics,
             final BagOfWords bow, LDAInferenceMethod method) {
-        this.alphas    = DoubleStream.generate(() -> alpha).limit(numTopics).toArray();
-        this.beta      = beta;
-        this.numTopics = numTopics;
-        this.bow       = bow;
-        this.vocabs    = new HashMap<>();
-        this.inference = LDAInferenceFactory.getInstance(method);
-        this.trained   = false;
+        this.alphas     = DoubleStream.generate(() -> alpha).limit(numTopics).toArray();
+        this.beta       = beta;
+        this.numTopics  = numTopics;
+        this.bow        = bow;
+        this.vocabs     = new HashMap<>();
+        this.inference  = LDAInferenceFactory.getInstance(method);
+        this.properties = null;
+        this.trained    = false;
+    }
+    
+    public LDA(final double alpha, final double beta, final int numTopics,
+            final BagOfWords bow, LDAInferenceMethod method, String propertiesFilePath) {
+        this.alphas     = DoubleStream.generate(() -> alpha).limit(numTopics).toArray();
+        this.beta       = beta;
+        this.numTopics  = numTopics;
+        this.bow        = bow;
+        this.vocabs     = new HashMap<>();
+        this.inference  = LDAInferenceFactory.getInstance(method);
+        this.properties = new LDAInferenceProperties();
+        this.trained    = false;
+        
+        try {
+            this.properties.load(propertiesFilePath);
+        } catch (IOException ioe) {
+            ioe.printStackTrace();
+        }
     }
     
     public void readVocabs(String filePath) throws IOException {
@@ -69,9 +89,10 @@ public class LDA {
         }
         return vocabs.get(vocabID);
     }
-
+    
     public void run() {
-        inference.setUp(this);
+        if (properties == null) inference.setUp(this);
+        else inference.setUp(this, properties);
         inference.run();
         trained = true;
     }

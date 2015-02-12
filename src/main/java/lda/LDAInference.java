@@ -18,6 +18,7 @@ package lda;
 
 public interface LDAInference {
     public void setUp(LDA lda);
+    public void setUp(LDA lda, LDAInferenceProperties properties);
     public void run();
     public double getTheta(final int docID, final int topicID);
     public double getPhi(final int topicID, final int vocabID);
