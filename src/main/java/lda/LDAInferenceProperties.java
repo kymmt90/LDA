@@ -14,6 +14,12 @@ public class LDAInferenceProperties {
         this.properties = new Properties();
     }
     
+    /**
+     * Load properties.
+     * @param fileName
+     * @throws IOException
+     * @throws NullPointerException fileName is null
+     */
     public void load(String fileName) throws IOException {
         if (fileName == null) throw new NullPointerException();
         InputStream stream = loader.getInputStream(fileName);

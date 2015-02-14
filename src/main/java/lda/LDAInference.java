@@ -17,9 +17,38 @@
 package lda;
 
 public interface LDAInference {
+    /**
+     * Set up for inference.
+     * @param lda
+     */
     public void setUp(LDA lda);
+    
+    /**
+     * Set up for inference.
+     * The configuration is read from properties class.
+     * @param lda
+     * @param properties
+     */
     public void setUp(LDA lda, LDAInferenceProperties properties);
+    
+    /**
+     * Run model inference.
+     */
     public void run();
+    
+    /**
+     * Get the value of doc-topic probability \theta_{docID, topicID}.
+     * @param docID
+     * @param topicID
+     * @return the value of doc-topic probability
+     */
     public double getTheta(final int docID, final int topicID);
+    
+    /**
+     * Get the value of topic-vocab probability \phi_{topicID, vocabID}.
+     * @param topicID
+     * @param vocabID
+     * @return the value of topic-vocab probability
+     */
     public double getPhi(final int topicID, final int vocabID);
 }

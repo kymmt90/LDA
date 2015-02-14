@@ -26,6 +26,12 @@ import org.apache.commons.lang3.tuple.Pair;
 public final class LDAUtils {
     private LDAUtils() {}
     
+    /**
+     * Compute the perplexity of trained LDA for the test bag-of-words dataset.
+     * @param lda trained LDA
+     * @param testBow
+     * @return the perplexity for the test bag-of-words dataset
+     */
     public static double computePerplexity(LDA lda, BagOfWords testBow) {
         double loglikelihood = 0.0;
         for (int d = 1; d <= testBow.getNumDocs(); ++d) {
@@ -39,12 +45,12 @@ public final class LDAUtils {
     }
     
     /**
-     * Get the topic-vocab probability descending ordered vocabularies list in a topic specified by the argument.
+     * Get the vocabularies list where elements are arranged by topic-vocab probability descending order.
      * @param lda
      * @param topicID
-     * @return the list of the vocabularies descending ordered by topic-vocab probability  
+     * @return the vocabularies list where elements are arranged by topic-vocab probability descending order
      * @throws IllegalArgumentException topicID < 0 || #topics <= topicID
-     * @throws IllegalStateException if the vocabularies file has not been read
+     * @throws IllegalStateException the vocabularies file has not been read yet
      */
     public static List<Pair<String, Double>> getProbDescOrderedVocabs(LDA lda, int topicID) {
         if (topicID < 0 || lda.getNumTopics() <= topicID) throw new IllegalArgumentException();

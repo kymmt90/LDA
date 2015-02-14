@@ -19,6 +19,11 @@ package lda;
 public class LDAInferenceFactory {
     private LDAInferenceFactory() {}
 
+    /**
+     * Get the LDAInference instance specified by the argument
+     * @param method
+     * @return the instance which implements LDAInference
+     */
     public static LDAInference getInstance(LDAInferenceMethod method) {
         LDAInference clazz = null;
         try {

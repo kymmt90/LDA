@@ -31,6 +31,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+/**
+ * This class is immutable.
+ */
 public final class BagOfWords {
     private DatasetLoader loader;
 
@@ -45,10 +48,26 @@ public final class BagOfWords {
     // docID -> the doc length 
     private Map<Integer, Integer> docLength;
 
+    /**
+     * Read the bag-of-words dataset.
+     * @param filePath
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @throws Exception
+     */
     public BagOfWords(String filePath) throws FileNotFoundException, IOException, Exception {
         this(filePath, null);
     }
     
+    /**
+     * Read the bag-of-words dataset.
+     * @param filePath
+     * @param loader
+     * @throws FileNotFoundException
+     * @throws IOException
+     * @throws Exception
+     * @throws NullPointerException filePath is null
+     */
     public BagOfWords(String filePath, DatasetLoader loader) throws FileNotFoundException, IOException, Exception {
         if (filePath == null) throw new NullPointerException();
         
