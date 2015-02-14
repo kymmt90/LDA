@@ -49,6 +49,7 @@ public class LDACollapsedGibbsSampler implements LDAInference {
         ready = false;
     }
 
+    @Override
     public void setUp(LDA lda, LDAInferenceProperties properties) {
         if (properties == null) {
             setUp(lda);
@@ -66,6 +67,7 @@ public class LDACollapsedGibbsSampler implements LDAInference {
         this.ready = true;
     }
     
+    @Override
     public void setUp(LDA lda) {
         if (lda == null) throw new NullPointerException();
 
