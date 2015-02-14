@@ -28,12 +28,8 @@ public class LDAInferenceFactory {
         LDAInference clazz = null;
         try {
             clazz = (LDAInference)Class.forName(method.toString()).newInstance();
-        } catch (ClassNotFoundException cnfe) {
-            assert false;
-            System.exit(1);
-        } catch (Exception e) {
-            e.printStackTrace();
-            System.exit(1);
+        } catch (ReflectiveOperationException roe) {
+            roe.printStackTrace();
         }
         return clazz;
     }
