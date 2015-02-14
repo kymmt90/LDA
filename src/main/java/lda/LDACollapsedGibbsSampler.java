@@ -183,25 +183,30 @@ public class LDACollapsedGibbsSampler implements LDAInference {
     void initializeTopicAssignment(final long seed) {
         Random random = new Random(seed);
         for (int d = 1; d <= lda.getBow().getNumDocs(); ++d) {
+            // Assign topic randomly
             topicAssignment.set(d - 1, new ArrayList<>());
-            List<Integer> topicCounts = Stream.generate(() -> 0).limit(lda.getNumTopics()).collect(Collectors.toList()); 
-            docTopicCount.set(d - 1, topicCounts);
+            List<Integer> randomTopicAssignment
+                = random.ints(lda.getBow().getDocLength(d), 0, lda.getNumTopics())
+                        .boxed()
+                        .collect(Collectors.toList());
+            topicAssignment.set(d - 1, randomTopicAssignment);
+
+            // Increment DT and TV count
+            List<Integer> topicCounts = Stream.generate(() -> 0).limit(lda.getNumTopics())
+                                                                .collect(Collectors.toList());
             for (int w = 0; w < lda.getBow().getDocLength(d); ++w) {
-                // Assign random topic
-                final int topicID = random.nextInt(lda.getNumTopics());
-                topicAssignment.get(d - 1).add(topicID);
-
-                // Increment DT count
-                docTopicCount.get(d - 1).set(topicID, docTopicCount.get(d - 1).get(topicID) + 1);
-
-                // Increment TV count
+                final int topicID = topicAssignment.get(d - 1).get(w);
                 final int vocabID = lda.getBow().getWords(d).get(w);
+                
+                topicCounts.set(topicID, topicCounts.get(topicID) + 1);
+                
                 Map<Integer, Integer> vocabCounts = topicVocabCount.get(topicID);
                 Optional<Integer> currentCount
                     = Optional.ofNullable(vocabCounts.putIfAbsent(vocabID, 1));
                 currentCount.ifPresent(c -> vocabCounts.replace(vocabID, c + 1));
                 topicSumCount.set(topicID, topicSumCount.get(topicID) + 1);
             }
+            docTopicCount.set(d - 1, topicCounts);
         }
     }
 
