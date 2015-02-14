@@ -112,10 +112,8 @@ public final class BagOfWords {
 
                 // Set up the doc length map
                 Optional<Integer> currentCount
-                = Optional.ofNullable(docLength.putIfAbsent(docID, count));
-                if (currentCount.isPresent()) {
-                    docLength.replace(docID, currentCount.get().intValue() + count);
-                }
+                    = Optional.ofNullable(docLength.putIfAbsent(docID, count));
+                currentCount.ifPresent(c -> docLength.replace(docID, c + count));
 
                 numWords += count;
             }

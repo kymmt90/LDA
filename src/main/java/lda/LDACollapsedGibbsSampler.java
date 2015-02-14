@@ -154,9 +154,7 @@ public class LDACollapsedGibbsSampler implements LDAInference {
                 Map<Integer, Integer> newVocabCounts = topicVocabCount.get(newTopic);
                 Optional<Integer> currentCount
                     = Optional.ofNullable(newVocabCounts.putIfAbsent(vocabID, 1));
-                if (currentCount.isPresent()) {
-                    newVocabCounts.replace(vocabID, currentCount.get().intValue() + 1);
-                }
+                currentCount.ifPresent(c -> newVocabCounts.replace(vocabID, c + 1));
                 topicSumCount.set(newTopic, topicSumCount.get(newTopic) + 1);
             }
         }
@@ -201,9 +199,7 @@ public class LDACollapsedGibbsSampler implements LDAInference {
                 Map<Integer, Integer> vocabCounts = topicVocabCount.get(topicID);
                 Optional<Integer> currentCount
                     = Optional.ofNullable(vocabCounts.putIfAbsent(vocabID, 1));
-                if (currentCount.isPresent()) {
-                    vocabCounts.replace(vocabID, currentCount.get().intValue() + 1);
-                }
+                currentCount.ifPresent(c -> vocabCounts.replace(vocabID, c + 1));
                 topicSumCount.set(topicID, topicSumCount.get(topicID) + 1);
             }
         }
