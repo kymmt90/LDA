@@ -144,7 +144,7 @@
 						<manifest>
 							<addClasspath>true</addClasspath>
 							<classpathPrefix>./dependency/</classpathPrefix>
-							<mainClass>main.Example</mainClass>
+							<mainClass>examples.Example</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
