@@ -21,11 +21,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.stream.DoubleStream;
 
 public class LDA {
-    private double[] alphas;
-    private final double beta;
+    private LDAHyperparameters hyperparameters;
     private final int numTopics;
     private final BagOfWords bow;
     private final Map<Integer, String> vocabs;
@@ -42,14 +40,13 @@ public class LDA {
      */
     public LDA(final double alpha, final double beta, final int numTopics,
             final BagOfWords bow, LDAInferenceMethod method) {
-        this.alphas     = DoubleStream.generate(() -> alpha).limit(numTopics).toArray();
-        this.beta       = beta;
-        this.numTopics  = numTopics;
-        this.bow        = bow;
-        this.vocabs     = new HashMap<>();
-        this.inference  = LDAInferenceFactory.getInstance(method);
-        this.properties = null;
-        this.trained    = false;
+        this.hyperparameters = new LDAHyperparameters(alpha, beta, numTopics);
+        this.numTopics       = numTopics;
+        this.bow             = bow;
+        this.vocabs          = new HashMap<>();
+        this.inference       = LDAInferenceFactory.getInstance(method);
+        this.properties      = null;
+        this.trained         = false;
     }
 
     /**
@@ -62,14 +59,13 @@ public class LDA {
      */
     public LDA(final double alpha, final double beta, final int numTopics,
             final BagOfWords bow, LDAInferenceMethod method, String propertiesFilePath) {
-        this.alphas     = DoubleStream.generate(() -> alpha).limit(numTopics).toArray();
-        this.beta       = beta;
-        this.numTopics  = numTopics;
-        this.bow        = bow;
-        this.vocabs     = new HashMap<>();
-        this.inference  = LDAInferenceFactory.getInstance(method);
-        this.properties = new LDAInferenceProperties();
-        this.trained    = false;
+        this.hyperparameters = new LDAHyperparameters(alpha, beta, numTopics);
+        this.numTopics       = numTopics;
+        this.bow             = bow;
+        this.vocabs          = new HashMap<>();
+        this.inference       = LDAInferenceFactory.getInstance(method);
+        this.properties      = new LDAInferenceProperties();
+        this.trained         = false;
         
         try {
             this.properties.load(propertiesFilePath);
@@ -131,11 +127,11 @@ public class LDA {
         if (topic < 0 || numTopics <= topic) {
             throw new ArrayIndexOutOfBoundsException(topic);
         }
-        return alphas[topic];
+        return hyperparameters.alpha(topic);
     }
 
     public double getBeta() {
-        return beta;
+        return hyperparameters.beta();
     }
 
     public int getNumTopics() {
