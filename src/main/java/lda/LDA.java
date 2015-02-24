@@ -16,17 +16,13 @@
 
 package lda;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 public class LDA {
     private LDAHyperparameters hyperparameters;
     private final int numTopics;
     private final BagOfWords bow;
-    private final Map<Integer, String> vocabs;
+    private Vocabularies vocabs;
     private final LDAInference inference;
     private LDAInferenceProperties properties;
     private boolean trained;
@@ -43,7 +39,6 @@ public class LDA {
         this.hyperparameters = new LDAHyperparameters(alpha, beta, numTopics);
         this.numTopics       = numTopics;
         this.bow             = bow;
-        this.vocabs          = new HashMap<>();
         this.inference       = LDAInferenceFactory.getInstance(method);
         this.properties      = null;
         this.trained         = false;
@@ -62,7 +57,6 @@ public class LDA {
         this.hyperparameters = new LDAHyperparameters(alpha, beta, numTopics);
         this.numTopics       = numTopics;
         this.bow             = bow;
-        this.vocabs          = new HashMap<>();
         this.inference       = LDAInferenceFactory.getInstance(method);
         this.properties      = new LDAInferenceProperties();
         this.trained         = false;
@@ -82,16 +76,7 @@ public class LDA {
      */
     public void readVocabs(String filePath) throws IOException {
         if (filePath == null) throw new NullPointerException();
-
-        BufferedReader reader
-            = new BufferedReader(new FileReader(filePath));
-        int vocabID = 1;
-        String s = null;
-        while ((s = reader.readLine()) != null) {
-            vocabs.put(vocabID, s);
-            vocabID += 1;
-        }
-        reader.close();
+        this.vocabs = new Vocabularies(filePath);
     }
 
     /**
@@ -116,7 +101,7 @@ public class LDA {
         inference.run();
         trained = true;
     }
-
+    
     /**
      * Get hyperparameter alpha corresponding to topic.
      * @param topic
