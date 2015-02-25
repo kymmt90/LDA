@@ -19,10 +19,7 @@ package lda;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -33,10 +30,9 @@ import org.apache.commons.math3.distribution.IntegerDistribution;
 
 public class LDACollapsedGibbsSampler implements LDAInference {
     private LDA lda;
+    private List<Topic> topics;
     private List<List<Integer>> topicAssignment;
     private List<List<Integer>> docTopicCount;
-    private List<Map<Integer, Integer>> topicVocabCount;
-    private List<Integer> topicSumCount;
     private int numIteration;
     
     private static final long DEFAULT_SEED = 0L;
@@ -82,17 +78,16 @@ public class LDACollapsedGibbsSampler implements LDAInference {
     
     private void initializeContainers() {
         assert lda != null;
+        
+        topics = new ArrayList<>();
+        for (int t = 0; t < lda.getNumTopics(); ++t) {
+            topics.add(new Topic(t, lda.getBow().getNumVocabs()));
+        }
         topicAssignment = Stream.generate(() -> new ArrayList<Integer>())
                                 .limit(this.lda.getBow().getNumDocs())
                                 .collect(Collectors.toList());
         docTopicCount   = Stream.generate(() -> new ArrayList<Integer>())
                                 .limit(this.lda.getBow().getNumDocs())
-                                .collect(Collectors.toList());
-        topicVocabCount = Stream.generate(() -> new HashMap<Integer, Integer>())
-                                .limit(this.lda.getNumTopics())
-                                .collect(Collectors.toList());
-        topicSumCount   = Stream.generate(() -> 0)
-                                .limit(this.lda.getNumTopics())
                                 .collect(Collectors.toList());
     }
 
@@ -127,35 +122,30 @@ public class LDACollapsedGibbsSampler implements LDAInference {
         for (int d = 1; d <= lda.getBow().getNumDocs(); ++d) {
             List<Integer> words = lda.getBow().getWords(d);
             for (int w = 0; w < words.size(); ++w) {
-                final int oldTopic = getTopicAssignment(d).get(w);
+                final Topic oldTopic = topics.get(getTopicAssignment(d).get(w));
                 final int vocabID  = words.get(w);
 
                 // Decrement DT count
                 List<Integer> topicCounts = docTopicCount.get(d - 1);
-                topicCounts.set(oldTopic, topicCounts.get(oldTopic) - 1);
+                topicCounts.set(oldTopic.id(), topicCounts.get(oldTopic.id()) - 1);
                 
                 // Decrement TV count
-                Map<Integer, Integer> vocabCounts = topicVocabCount.get(oldTopic);
-                vocabCounts.replace(vocabID, vocabCounts.get(vocabID) - 1);
-                topicSumCount.set(oldTopic, topicSumCount.get(oldTopic) - 1);
+                oldTopic.decrementVocabCount(vocabID);
 
                 // Create the discrete distribution over toipcs from the current topic assignment
                 IntegerDistribution distribution
                     = getFullConditionalDistribution(lda.getNumTopics(), d, vocabID);
                 
                 // Sample the new topic and assign it to the word
-                final int newTopic = distribution.sample();
-                topicAssignment.get(d - 1).set(w, newTopic);
+                final int newTopicID = distribution.sample();
+                topicAssignment.get(d - 1).set(w, newTopicID);
                 
                 // Increment DT count
-                topicCounts.set(newTopic, topicCounts.get(newTopic) + 1);
+                topicCounts.set(newTopicID, topicCounts.get(newTopicID) + 1);
                 
                 // Increment TV count
-                Map<Integer, Integer> newVocabCounts = topicVocabCount.get(newTopic);
-                Optional<Integer> currentCount
-                    = Optional.ofNullable(newVocabCounts.putIfAbsent(vocabID, 1));
-                currentCount.ifPresent(c -> newVocabCounts.replace(vocabID, c + 1));
-                topicSumCount.set(newTopic, topicSumCount.get(newTopic) + 1);
+                final Topic newTopic = topics.get(newTopicID);
+                newTopic.incrementVocabCount(vocabID);
             }
         }
     }
@@ -200,11 +190,8 @@ public class LDACollapsedGibbsSampler implements LDAInference {
                 
                 topicCounts.set(topicID, topicCounts.get(topicID) + 1);
                 
-                Map<Integer, Integer> vocabCounts = topicVocabCount.get(topicID);
-                Optional<Integer> currentCount
-                    = Optional.ofNullable(vocabCounts.putIfAbsent(vocabID, 1));
-                currentCount.ifPresent(c -> vocabCounts.replace(vocabID, c + 1));
-                topicSumCount.set(topicID, topicSumCount.get(topicID) + 1);
+                final Topic topic = topics.get(topicID);
+                topic.incrementVocabCount(vocabID);
             }
             docTopicCount.set(d - 1, topicCounts);
         }
@@ -236,8 +223,8 @@ public class LDACollapsedGibbsSampler implements LDAInference {
         if (topicID < 0 || lda.getNumTopics() <= topicID || vocabID <= 0) {
             throw new IllegalArgumentException();
         }
-        if (!topicVocabCount.get(topicID).containsKey(vocabID)) return 0;
-        else return topicVocabCount.get(topicID).get(vocabID);
+        final Topic topic = topics.get(topicID);
+        return topic.getVocabCount(vocabID);
     }
     
     /**
@@ -251,7 +238,8 @@ public class LDACollapsedGibbsSampler implements LDAInference {
         if (topicID < 0 || lda.getNumTopics() <= topicID) {
             throw new IllegalArgumentException();
         }
-        return topicSumCount.get(topicID);
+        final Topic topic = topics.get(topicID);
+        return topic.getSumCount();
     }
 
     @Override
