@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Vocabularies {
-    private Map<Integer, String> vocabs = new HashMap<>();
+    private Map<Integer, Vocabulary> vocabs = new HashMap<>();
     
     public Vocabularies(String filePath) {
         if (filePath == null) throw new NullPointerException();
@@ -19,7 +19,7 @@ public class Vocabularies {
             int id = 1;
             String s = null;
             while ((s = reader.readLine()) != null) {
-                vocabs.put(id, s);
+                vocabs.put(id, new Vocabulary(id, s));
                 id += 1;
             }
         } catch (IOException ioe) {
@@ -28,7 +28,7 @@ public class Vocabularies {
     }
     
     public String get(int id) {
-        return vocabs.get(id);
+        return vocabs.get(id).toString();
     }
     
     public int size() {
