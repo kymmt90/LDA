@@ -219,10 +219,6 @@ public class LDACollapsedGibbsSampler implements LDAInference {
     @Override
     public double getPhi(int topicID, int vocabID) {
         if (!ready) throw new IllegalStateException();
-        if (topicID < 0 || lda.getNumTopics() <= topicID || vocabID <= 0) {
-            throw new IllegalArgumentException();
-        }
-        return (getTVCount(topicID, vocabID) + lda.getBeta())
-                / (getTSumCount(topicID) + lda.getBow().getNumVocabs() * lda.getBeta());
+        return topics.getPhi(topicID, vocabID, lda.getBeta());
     }
 }

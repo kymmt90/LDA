@@ -40,4 +40,9 @@ public class Topics {
     public void decrementVocabCount(int topicID, int vocabID) {
         topics.get(topicID).decrementVocabCount(vocabID);
     }
+    
+    public double getPhi(int topicID, int vocabID, double beta) {
+        if (topicID < 0 || topics.size() <= topicID) throw new IllegalArgumentException();
+        return topics.get(topicID).getPhi(vocabID, beta);
+    }
 }
