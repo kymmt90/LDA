@@ -1,19 +1,18 @@
 package lda;
 
-import java.util.Collections;
 import java.util.List;
 
 public class Document {
     private final int id;
     private TopicCounter topicCount;
-    private List<Vocabulary> words;
+    private Words words;
     private TopicAssignment assignment;
     
     public Document(int id, int numTopics, List<Vocabulary> words) {
         if (id <= 0 || numTopics <= 0) throw new IllegalArgumentException();
         this.id = id;
         this.topicCount = new TopicCounter(numTopics);
-        this.words = words;
+        this.words = new Words(words);
         this.assignment = new TopicAssignment();
     }
 
@@ -26,7 +25,7 @@ public class Document {
     }
     
     public int getDocLength() {
-        return words.size();
+        return words.getNumWords();
     }
     
     public void incrementTopicCount(int topicID) {
@@ -58,6 +57,6 @@ public class Document {
     }
 
     public List<Vocabulary> getWords() {
-        return Collections.unmodifiableList(words);
+        return words.getWords();
     }
 }
