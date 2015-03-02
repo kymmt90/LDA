@@ -77,6 +77,7 @@ public class LDATest {
         public void setUp() throws Exception {
             BagOfWords bow = new BagOfWords("src/test/resources/docword.kos.txt");
             sut = new LDA(0.1, 0.1, 10, bow, LDAInferenceMethod.CGS);
+            sut.readVocabs("src/test/resources/vocab.kos.txt");
         }
         
         @After
@@ -89,6 +90,11 @@ public class LDATest {
             assertThat(sut.getBow().getNumDocs(),   is(3430));
             assertThat(sut.getBow().getNumVocabs(), is(6906));
             assertThat(sut.getBow().getNumNNZ(),  is(353160));
+        }
+        
+        @Test
+        public void getVocab_1_returns_aarp() throws Exception {
+            assertThat(sut.getVocab(1), is("aarp"));
         }
     }
 }

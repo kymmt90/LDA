@@ -9,11 +9,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Vocabularies {
-    private Map<Integer, Vocabulary> vocabs = new HashMap<>();
+    private Map<Integer, Vocabulary> vocabs;
     
     public Vocabularies(String filePath) {
         if (filePath == null) throw new NullPointerException();
 
+        vocabs = new HashMap<>();
         Path path = Paths.get(filePath);
         try (BufferedReader reader = Files.newBufferedReader(path)) {
             int id = 1;
@@ -27,8 +28,8 @@ public class Vocabularies {
         }
     }
     
-    public String get(int id) {
-        return vocabs.get(id).toString();
+    public Vocabulary get(int id) {
+        return vocabs.get(id);
     }
     
     public int size() {

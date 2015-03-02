@@ -76,7 +76,7 @@ public class LDA {
      */
     public void readVocabs(String filePath) throws IOException {
         if (filePath == null) throw new NullPointerException();
-        this.vocabs = new Vocabularies(filePath);
+        vocabs = new Vocabularies(filePath);
     }
 
     /**
@@ -89,7 +89,7 @@ public class LDA {
         if (vocabID <= 0 || vocabs.size() < vocabID) {
             throw new IllegalArgumentException();
         }
-        return vocabs.get(vocabID);
+        return vocabs.get(vocabID).toString();
     }
 
     /**
@@ -164,5 +164,9 @@ public class LDA {
         }
 
         return inference.getPhi(topicID, vocabID);
+    }
+    
+    public Vocabularies getVocabularies() {
+        return vocabs;
     }
 }
