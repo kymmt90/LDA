@@ -16,6 +16,10 @@
 
 package lda;
 
+import java.util.List;
+
+import org.apache.commons.lang3.tuple.Pair;
+
 public interface LDAInference {
     /**
      * Set up for inference.
@@ -51,4 +55,6 @@ public interface LDAInference {
      * @return the value of topic-vocab probability
      */
     public double getPhi(final int topicID, final int vocabID);
+
+    public List<Pair<String, Double>> getVocabsSortedByPhi(int topicID);
 }

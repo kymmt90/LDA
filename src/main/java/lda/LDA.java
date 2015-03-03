@@ -17,6 +17,9 @@
 package lda;
 
 import java.io.IOException;
+import java.util.List;
+
+import org.apache.commons.lang3.tuple.Pair;
 
 public class LDA {
     private LDAHyperparameters hyperparameters;
@@ -172,5 +175,9 @@ public class LDA {
     
     public Vocabularies getVocabularies() {
         return vocabs;
+    }
+    
+    public List<Pair<String, Double>> getVocabsSortedByPhi(int topicID) {
+        return inference.getVocabsSortedByPhi(topicID);
     }
 }

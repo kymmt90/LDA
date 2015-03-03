@@ -36,7 +36,7 @@ public class Example {
         System.out.println(LDAUtils.computePerplexity(lda, lda.getBow()));
 
         for (int t = 0; t < numTopics; ++t) {
-            List<Pair<String, Double>> highRankVocabs = LDAUtils.getProbDescOrderedVocabs(lda, t);
+            List<Pair<String, Double>> highRankVocabs = lda.getVocabsSortedByPhi(t);
             System.out.print("t" + t + ": ");
             for (int i = 0; i < 5; ++i) {
                 System.out.print("[" + highRankVocabs.get(i).getLeft() + "," + highRankVocabs.get(i).getRight() + "],");

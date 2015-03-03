@@ -17,8 +17,10 @@
 package lda;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.IntStream;
 
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.math3.distribution.EnumeratedIntegerDistribution;
 import org.apache.commons.math3.distribution.IntegerDistribution;
 
@@ -211,5 +213,10 @@ public class LDACollapsedGibbsSampler implements LDAInference {
     public double getPhi(int topicID, int vocabID) {
         if (!ready) throw new IllegalStateException();
         return topics.getPhi(topicID, vocabID, lda.getBeta());
+    }
+    
+    @Override
+    public List<Pair<String, Double>> getVocabsSortedByPhi(int topicID) {
+        return topics.getVocabsSortedByPhi(lda, topicID);
     }
 }

@@ -16,13 +16,6 @@
 
 package lda;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
-import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.apache.commons.lang3.tuple.Pair;
-
 public final class LDAUtils {
     private LDAUtils() {}
     
@@ -42,25 +35,5 @@ public final class LDAUtils {
             }
         }
         return Math.exp(-loglikelihood / lda.getBow().getNumWords());
-    }
-    
-    /**
-     * Get the vocabularies list where elements are arranged by topic-vocab probability descending order.
-     * @param lda
-     * @param topicID
-     * @return the vocabularies list where elements are arranged by topic-vocab probability descending order
-     * @throws IllegalArgumentException topicID < 0 || #topics <= topicID
-     * @throws IllegalStateException the vocabularies file has not been read yet
-     */
-    public static List<Pair<String, Double>> getProbDescOrderedVocabs(LDA lda, int topicID) {
-        if (topicID < 0 || lda.getNumTopics() <= topicID) throw new IllegalArgumentException();
-        if (lda.getBow().getNumVocabs() == 0) throw new IllegalStateException();
-        
-        List<Pair<String, Double>> vocabProbPairs = new ArrayList<>();
-        for (int v = 1; v <= lda.getBow().getNumVocabs(); ++v) {
-            vocabProbPairs.add(new ImmutablePair<String, Double>(lda.getVocab(v), lda.getPhi(topicID, v)));
-        }
-        Collections.sort(vocabProbPairs, (p1, p2) -> Double.compare(p2.getRight(), p1.getRight()));
-        return vocabProbPairs;
     }
 }

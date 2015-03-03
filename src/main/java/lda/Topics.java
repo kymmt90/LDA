@@ -1,7 +1,11 @@
 package lda;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
 
 public class Topics {
     private List<Topic> topics;
@@ -44,5 +48,21 @@ public class Topics {
     public double getPhi(int topicID, int vocabID, double beta) {
         if (topicID < 0 || topics.size() <= topicID) throw new IllegalArgumentException();
         return topics.get(topicID).getPhi(vocabID, beta);
+    }
+    
+    public List<Pair<String, Double>> getVocabsSortedByPhi(LDA lda, int topicID) {
+        if (lda == null || topicID < 0 || topics.size() <= topicID) {
+            throw new IllegalArgumentException();
+        }
+        
+        List<Pair<String, Double>> vocabProbPairs = new ArrayList<>();
+        for (int v = 1; v <= lda.getBow().getNumVocabs(); ++v) {
+            Vocabulary vocab = lda.getVocabularies().get(v);
+            Topic topic = topics.get(topicID);
+            Double phi = topic.getPhi(vocab.id(), lda.getBeta());
+            vocabProbPairs.add(new ImmutablePair<String, Double>(vocab.toString(), phi));
+        }
+        Collections.sort(vocabProbPairs, (p1, p2) -> Double.compare(p2.getRight(), p1.getRight()));
+        return vocabProbPairs;
     }
 }
