@@ -20,4 +20,8 @@ public class Alpha {
     public void set(int i, double value) {
         alphas.set(i, value);
     }
+
+    public double sum() {
+        return alphas.stream().reduce(Double::sum).get();
+    }
 }

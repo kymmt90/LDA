@@ -114,6 +114,10 @@ public class LDA {
         }
         return hyperparameters.alpha(topic);
     }
+    
+    public double getSumAlpha() {
+        return hyperparameters.sumAlpha();
+    }
 
     public double getBeta() {
         return hyperparameters.beta();

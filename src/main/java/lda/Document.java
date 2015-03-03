@@ -59,4 +59,11 @@ public class Document {
     public List<Vocabulary> getWords() {
         return words.getWords();
     }
+    
+    public double getTheta(int topicID, double alpha, double sumAlpha) {
+        if (topicID < 0 || alpha <= 0.0 || sumAlpha <= 0.0) {
+            throw new IllegalArgumentException();
+        }
+        return (getTopicCount(topicID) + alpha) / (getDocLength() + sumAlpha);
+    }
 }

@@ -204,16 +204,7 @@ public class LDACollapsedGibbsSampler implements LDAInference {
     @Override
     public double getTheta(final int docID, final int topicID) {
         if (!ready) throw new IllegalStateException();
-        if (docID <= 0 || lda.getBow().getNumDocs() < docID
-                || topicID < 0 || lda.getNumTopics() <= topicID) {
-            throw new IllegalArgumentException();
-        }
-        double sumAlpha = 0.0;
-        for (int t = 0; t < lda.getNumTopics(); ++t) {
-            sumAlpha += lda.getAlpha(t);
-        }
-        return (getDTCount(docID, topicID) + lda.getAlpha(topicID))
-                / (lda.getBow().getDocLength(docID) + sumAlpha);
+        return documents.getTheta(docID, topicID, lda.getAlpha(topicID), lda.getSumAlpha());
     }
 
     @Override

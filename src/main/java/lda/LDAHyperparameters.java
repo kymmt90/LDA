@@ -18,6 +18,10 @@ public class LDAHyperparameters {
         return alpha.get(i);
     }
     
+    public double sumAlpha() {
+        return alpha.sum();
+    }
+    
     public double beta() {
         return beta.get();
     }

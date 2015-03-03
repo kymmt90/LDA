@@ -57,4 +57,9 @@ public class Documents {
     public int getTopicCount(int docID, int topicID) {
         return documents.get(docID - 1).getTopicCount(topicID);
     }
+    
+    public double getTheta(int docID, int topicID, double alpha, double sumAlpha) {
+        if (docID <= 0 || documents.size() < docID) throw new IllegalArgumentException();
+        return documents.get(docID - 1).getTheta(topicID, alpha, sumAlpha);
+    }
 }
