@@ -8,6 +8,7 @@ public class AssignmentCounter {
     private List<Integer> counter;
 
     public AssignmentCounter(int size) {
+        if (size <= 0) throw new IllegalArgumentException();
         this.counter = IntStream.generate(() -> 0)
                                 .limit(size)
                                 .boxed()
@@ -19,6 +20,9 @@ public class AssignmentCounter {
     }
     
     public int get(int id) {
+        if (id < 0 || counter.size() <= id) {
+            throw new IllegalArgumentException();
+        }
         return counter.get(id);
     }
     
@@ -27,10 +31,19 @@ public class AssignmentCounter {
     }
     
     public void increment(int id) {
+        if (id < 0 || counter.size() <= id) {
+            throw new IllegalArgumentException();
+        }
         counter.set(id, counter.get(id) + 1);
     }
     
-    public void decrement(int topicID) {
-        counter.set(topicID, counter.get(topicID) - 1);
+    public void decrement(int id) {
+        if (id < 0 || counter.size() <= id) {
+            throw new IllegalArgumentException();
+        }
+        if (counter.get(id) == 0) {
+            throw new IllegalStateException();
+        }
+        counter.set(id, counter.get(id) - 1);
     }
 }
