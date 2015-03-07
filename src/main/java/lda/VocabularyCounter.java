@@ -10,9 +10,6 @@ public class VocabularyCounter {
     }
 
     public int getVocabCount(int vocabID) {
-        if (vocabID <= 0 || vocabCount.size() < vocabID) {
-            throw new IllegalArgumentException();
-        }
         return vocabCount.get(vocabID - 1);
     }
     
@@ -21,17 +18,11 @@ public class VocabularyCounter {
     }
     
     public void incrementVocabCount(int vocabID) {
-        if (vocabID <= 0 || vocabCount.size() < vocabID) {
-            throw new IllegalArgumentException();
-        }
         vocabCount.increment(vocabID - 1);
         ++sumCount;
     }
     
     public void decrementVocabCount(int vocabID) {
-        if (vocabID <= 0 || vocabCount.size() < vocabID) {
-            throw new IllegalArgumentException();
-        }
         vocabCount.decrement(vocabID - 1);
         --sumCount;
     }
