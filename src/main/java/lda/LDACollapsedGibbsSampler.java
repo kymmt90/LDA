@@ -217,6 +217,6 @@ public class LDACollapsedGibbsSampler implements LDAInference {
     
     @Override
     public List<Pair<String, Double>> getVocabsSortedByPhi(int topicID) {
-        return topics.getVocabsSortedByPhi(lda, topicID);
+        return topics.getVocabsSortedByPhi(topicID, lda.getVocabularies(), lda.getBeta());
     }
 }
