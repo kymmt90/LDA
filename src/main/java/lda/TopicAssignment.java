@@ -32,7 +32,6 @@ public class TopicAssignment {
         Random random = new Random(seed);
         topicAssignment = random.ints(docLength, 0, numTopics)
                                 .boxed()
-                                //.mapToObj(id -> topics.get(id))
                                 .collect(Collectors.toList());
         ready = true;
     }
