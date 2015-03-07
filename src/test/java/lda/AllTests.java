@@ -27,6 +27,7 @@ import org.junit.runners.Suite.SuiteClasses;
                LDACollapsedGibbsSamplerTest.class,
                LDAInferencePropertiesTest.class,
                TopicCounterTest.class,
-               VocabulariesTest.class})
+               VocabulariesTest.class,
+               VocabularyCounterTest.class})
 public class AllTests {
 }
