@@ -16,19 +16,25 @@ public class TopicAssignment {
 
     public void set(int wordID, int topicID) {
         if (!ready) throw new IllegalStateException();
-        if (wordID < 0 || topicID < 0) {
+        if (wordID < 0 || topicAssignment.size() <= wordID || topicID < 0) {
             throw new IllegalArgumentException();
         }
         topicAssignment.set(wordID, topicID);
     }
     
-    public Integer get(int wordID) {
+    public int get(int wordID) {
         if (!ready) throw new IllegalStateException();
-        if (wordID < 0) throw new IllegalArgumentException();
+        if (wordID < 0 || topicAssignment.size() <= wordID) {
+            throw new IllegalArgumentException();
+        }
         return topicAssignment.get(wordID);
     }
     
     public void initialize(int docLength, int numTopics, long seed) {
+        if (docLength <= 0 || numTopics <= 0) {
+            throw new IllegalArgumentException();
+        }
+        
         Random random = new Random(seed);
         topicAssignment = random.ints(docLength, 0, numTopics)
                                 .boxed()
