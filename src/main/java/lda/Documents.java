@@ -20,7 +20,7 @@ public class Documents {
     }
     
     private List<Vocabulary> getVocabularyList(int docID, BagOfWords bow, Vocabularies vocabs) {
-        assert docID < 0 && bow != null && vocabs != null;
+        assert docID > 0 && bow != null && vocabs != null;
         return bow.getWords(docID).stream()
                                   .map(id -> vocabs.get(id))
                                   .collect(Collectors.toList());
