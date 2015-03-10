@@ -7,6 +7,7 @@ public class Words {
     private List<Vocabulary> words;
     
     public Words(List<Vocabulary> words) {
+        if (words == null) throw new NullPointerException();
         this.words = words; 
     }
 
@@ -15,6 +16,9 @@ public class Words {
     }
     
     public Vocabulary get(int id) {
+        if (id < 0 || words.size() <= id) {
+            throw new IllegalArgumentException();
+        }
         return words.get(id);
     }
     
