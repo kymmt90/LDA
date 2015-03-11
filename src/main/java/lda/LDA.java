@@ -180,4 +180,23 @@ public class LDA {
     public List<Pair<String, Double>> getVocabsSortedByPhi(int topicID) {
         return inference.getVocabsSortedByPhi(topicID);
     }
+    
+    /**
+     * Compute the perplexity of trained LDA for the test bag-of-words dataset.
+     * @param testBow
+     * @return the perplexity for the test bag-of-words dataset
+     */
+    public double computePerplexity(BagOfWords testBow) {
+        double loglikelihood = 0.0;
+        for (int d = 1; d <= testBow.getNumDocs(); ++d) {
+            for (Integer w : testBow.getWords(d)) {
+                double sum = 0.0;
+                for (int t = 0; t < getNumTopics(); ++t) {
+                     sum += getTheta(d, t) * getPhi(t, w.intValue()); 
+                }
+                loglikelihood += Math.log(sum);
+            }
+        }
+        return Math.exp(-loglikelihood / testBow.getNumWords());
+    }
 }
