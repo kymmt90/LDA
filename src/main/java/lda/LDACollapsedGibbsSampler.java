@@ -147,15 +147,7 @@ public class LDACollapsedGibbsSampler implements LDAInference {
      * @param seed the seed of a pseudo random number generator
      */
     void initializeTopicAssignment(final long seed) {
-        for (Document d : documents.getDocuments()) {
-            d.initializeTopicAssignment(lda.getNumTopics(), seed);
-            for (int w = 0; w < d.getDocLength(); ++w) {
-                final int topicID = d.getTopicID(w);
-                final Topic topic = topics.get(topicID);
-                final Vocabulary vocab = d.getVocabulary(w);
-                topic.incrementVocabCount(vocab.id());
-            }
-        }
+        documents.initializeTopicAssignment(topics, seed);
     }
 
     /**

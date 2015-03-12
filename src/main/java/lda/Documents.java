@@ -62,4 +62,16 @@ public class Documents {
         if (docID <= 0 || documents.size() < docID) throw new IllegalArgumentException();
         return documents.get(docID - 1).getTheta(topicID, alpha, sumAlpha);
     }
+    
+    void initializeTopicAssignment(Topics topics, long seed) {
+        for (Document d : getDocuments()) {
+            d.initializeTopicAssignment(topics.numTopics(), seed);
+            for (int w = 0; w < d.getDocLength(); ++w) {
+                final int topicID = d.getTopicID(w);
+                final Topic topic = topics.get(topicID);
+                final Vocabulary vocab = d.getVocabulary(w);
+                topic.incrementVocabCount(vocab.id());
+            }
+        }
+    }
 }
