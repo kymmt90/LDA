@@ -10,7 +10,8 @@ public class VocabularyCounter {
     }
 
     public int getVocabCount(int vocabID) {
-        return vocabCount.get(vocabID - 1);
+        if (vocabCount.size() < vocabID) return 0;
+        else return vocabCount.get(vocabID - 1);
     }
     
     public int getSumCount() {

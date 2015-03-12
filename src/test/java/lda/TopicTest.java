@@ -35,9 +35,9 @@ public class TopicTest {
             sut.getVocabCount(0);
         }
         
-        @Test(expected = IllegalArgumentException.class)
-        public void getVocabCount_101_throws_IllegalArgumentException() throws Exception {
-            sut.getVocabCount(101);
+        @Test
+        public void getVocabCount_101_returns_0() throws Exception {
+            assertThat(sut.getVocabCount(101), is(0));
         }
 
         @Test
@@ -75,7 +75,7 @@ public class TopicTest {
         }
         
         @Test(expected = IllegalArgumentException.class)
-        public void incrementVocabCount_101_throws_IllegalArgumentException() throws Exception {
+        public void incrementVocabCount_101_returns_IllegalArgumentException() throws Exception {
             sut.incrementVocabCount(101);
         }
     }

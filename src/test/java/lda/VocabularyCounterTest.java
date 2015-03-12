@@ -53,8 +53,8 @@ public class VocabularyCounterTest {
         assertThat(sut.getVocabCount(100), is(10));
     }
     
-    @Test(expected = IllegalArgumentException.class)
-    public void getVocabCount_101_throws_IllegalArgumentException() throws Exception {
-        sut.getVocabCount(101);
+    @Test
+    public void getVocabCount_101_returns_0() throws Exception {
+        assertThat(sut.getVocabCount(101), is(0));
     }
 }
