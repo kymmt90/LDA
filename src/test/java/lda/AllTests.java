@@ -28,7 +28,9 @@ import org.junit.runners.Suite.SuiteClasses;
                LDAInferencePropertiesTest.class,
                TopicAssignmentTest.class,
                TopicCounterTest.class,
+               TopicTest.class,
                VocabulariesTest.class,
-               VocabularyCounterTest.class})
+               VocabularyCounterTest.class,
+               WordsTest.class})
 public class AllTests {
 }
