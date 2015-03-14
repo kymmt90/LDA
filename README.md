@@ -26,13 +26,6 @@ For unit testing, these libraries are also needed.
 - JUnit
 - Mockito
 
-Build
------
-
-Execute these commands at the directory `LDA` to build.
-
-    $ mvn clean package dependency:copy-dependencies -DincludeScope=runtime
-
 Usage
 -----
 
@@ -65,14 +58,13 @@ There is `lda.BagOfWords` to read dataset from files.
 `lda.BagOfWords` object and other parameters are passed to initialize `lda.LDA`.
 For example:
 
-    BagOfWords bow = new BagOfWords("/path/to/docvocabcounts");
+    Dataset dataset = new Dataset("path/to/doc-vocab-counts", "path/to/vocabs");
     LDA lda = new LDA(0.1                    /* initial alpha */,
                       0.1                    /* initial beta */,
                       50                     /* the number of topics */,
                       bow                    /* bag-of-words */,
-                      LDAInferenceMethod.CGS /* use collapsed Gibbs sampler for inference */,
+                      CGS                    /* use collapsed Gibbs sampler for inference */,
                       "path/to/properties"   /* properties file path */);
-    lda.readVocabs("/path/to/vocabs");
     lda.run();
 
 These items are available as properties:
@@ -88,8 +80,9 @@ The results of topics can be refered as follows:
     vocabs.get(0).getRight(); // the probability value of the above vocabulary
 
 Please see `example.Example#main` for more details.
-Execute this command after build to run `example.Example#main`.
+Execute these commands at the directory `LDA` to build and run `example.Example#main`.
 
+    $ mvn clean package dependency:copy-dependencies -DincludeScope=runtime
     $ java -jar target/LDA-<version>.jar
 
 License
