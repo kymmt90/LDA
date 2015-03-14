@@ -75,9 +75,8 @@ public class LDATest {
         
         @Before
         public void setUp() throws Exception {
-            BagOfWords bow = new BagOfWords("src/test/resources/docword.kos.txt");
-            sut = new LDA(0.1, 0.1, 10, bow, LDAInferenceMethod.CGS);
-            sut.readVocabs("src/test/resources/vocab.kos.txt");
+            Dataset dataset = new Dataset("src/test/resources/docword.kos.txt", "src/test/resources/vocab.kos.txt"); 
+            sut = new LDA(0.1, 0.1, 10, dataset, LDAInferenceMethod.CGS);
         }
         
         @After

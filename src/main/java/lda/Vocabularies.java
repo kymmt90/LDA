@@ -32,7 +32,7 @@ public class Vocabularies {
         return vocabs.size();
     }
     
-    public List<Vocabulary> vocabularies() {
+    public List<Vocabulary> getVocabularyList() {
         return Collections.unmodifiableList(vocabs);
     }
 }

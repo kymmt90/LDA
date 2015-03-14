@@ -58,10 +58,11 @@ public class Topics {
         
         Topic topic = topics.get(topicID);
         List<Pair<String, Double>> vocabProbPairs
-            = vocabs.vocabularies().stream()
-                                   .map(v -> new ImmutablePair<String, Double>(v.toString(), topic.getPhi(v.id(), beta)))
-                                   .sorted((p1, p2) -> Double.compare(p2.getRight(), p1.getRight()))
-                                   .collect(Collectors.toList());
+            = vocabs.getVocabularyList()
+                    .stream()
+                    .map(v -> new ImmutablePair<String, Double>(v.toString(), topic.getPhi(v.id(), beta)))
+                    .sorted((p1, p2) -> Double.compare(p2.getRight(), p1.getRight()))
+                    .collect(Collectors.toList());
         return Collections.unmodifiableList(vocabProbPairs);
     }
 }

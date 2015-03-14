@@ -24,8 +24,7 @@ import org.apache.commons.lang3.tuple.Pair;
 public class LDA {
     private LDAHyperparameters hyperparameters;
     private final int numTopics;
-    private final BagOfWords bow;
-    private Vocabularies vocabs;
+    private Dataset dataset;
     private final LDAInference inference;
     private LDAInferenceProperties properties;
     private boolean trained;
@@ -34,32 +33,50 @@ public class LDA {
      * @param alpha doc-topic hyperparameter
      * @param beta topic-vocab hyperparameter
      * @param numTopics the number of topics
-     * @param bow bag-of-words
+     * @param dataset dataset
+     * @param method inference method
+     */
+    public LDA(final double alpha, final double beta, final int numTopics,
+            final Dataset dataset, LDAInferenceMethod method) {
+        this.hyperparameters = new LDAHyperparameters(alpha, beta, numTopics);
+        this.numTopics       = numTopics;
+        this.dataset         = dataset;
+        this.inference       = LDAInferenceFactory.getInstance(method);
+        this.properties      = null;
+        this.trained         = false;
+    }
+    
+    /**
+     * @param alpha doc-topic hyperparameter
+     * @param beta topic-vocab hyperparameter
+     * @param numTopics the number of topics
+     * @param dataset dataset
      * @param method inference method
      */
     public LDA(final double alpha, final double beta, final int numTopics,
             final BagOfWords bow, LDAInferenceMethod method) {
         this.hyperparameters = new LDAHyperparameters(alpha, beta, numTopics);
         this.numTopics       = numTopics;
-        this.bow             = bow;
+        this.dataset         = new Dataset(bow);
         this.inference       = LDAInferenceFactory.getInstance(method);
         this.properties      = null;
         this.trained         = false;
     }
-
+    
     /**
      * @param alpha doc-topic hyperparameter
      * @param beta topic-vocab hyperparameter
      * @param numTopics the number of topics
+     * @param dataset dataset
      * @param bow bag-of-words
      * @param method inference method
      * @param propertiesFilePath the path of the properties file 
      */
     public LDA(final double alpha, final double beta, final int numTopics,
-            final BagOfWords bow, LDAInferenceMethod method, String propertiesFilePath) {
+            final Dataset dataset, LDAInferenceMethod method, String propertiesFilePath) {
         this.hyperparameters = new LDAHyperparameters(alpha, beta, numTopics);
         this.numTopics       = numTopics;
-        this.bow             = bow;
+        this.dataset         = dataset;
         this.inference       = LDAInferenceFactory.getInstance(method);
         this.properties      = new LDAInferenceProperties();
         this.trained         = false;
@@ -70,17 +87,6 @@ public class LDA {
             ioe.printStackTrace();
         }
     }
-    
-    /**
-     * Read vocabs file.
-     * @param filePath
-     * @throws IOException
-     * @throws NullPointerException filePath is null
-     */
-    public void readVocabs(String filePath) throws IOException {
-        if (filePath == null) throw new NullPointerException();
-        vocabs = new Vocabularies(filePath);
-    }
 
     /**
      * Get the vocabulary from its ID.
@@ -89,10 +95,10 @@ public class LDA {
      * @throws IllegalArgumentException vocabID <= 0 || the number of vocabularies < vocabID
      */
     public String getVocab(int vocabID) {
-        if (vocabID <= 0 || vocabs.size() < vocabID) {
+        if (vocabID <= 0 || dataset.getNumVocabs() < vocabID) {
             throw new IllegalArgumentException();
         }
-        return vocabs.get(vocabID).toString();
+        return dataset.get(vocabID).toString();
     }
 
     /**
@@ -131,7 +137,7 @@ public class LDA {
     }
 
     public BagOfWords getBow() {
-        return bow;
+        return dataset.getBow();
     }
 
     /**
@@ -143,7 +149,7 @@ public class LDA {
      * @throws IllegalStateException call this method when the inference has not been finished yet
      */
     public double getTheta(final int docID, final int topicID) {
-        if (docID <= 0 || bow.getNumDocs() < docID
+        if (docID <= 0 || dataset.getNumDocs() < docID
                 || topicID < 0 || numTopics <= topicID) {
             throw new IllegalArgumentException();
         }
@@ -174,7 +180,7 @@ public class LDA {
     }
     
     public Vocabularies getVocabularies() {
-        return vocabs;
+        return dataset.getVocabularies();
     }
     
     public List<Pair<String, Double>> getVocabsSortedByPhi(int topicID) {
@@ -183,13 +189,13 @@ public class LDA {
     
     /**
      * Compute the perplexity of trained LDA for the test bag-of-words dataset.
-     * @param testBow
+     * @param testDataset
      * @return the perplexity for the test bag-of-words dataset
      */
-    public double computePerplexity(BagOfWords testBow) {
+    public double computePerplexity(Dataset testDataset) {
         double loglikelihood = 0.0;
-        for (int d = 1; d <= testBow.getNumDocs(); ++d) {
-            for (Integer w : testBow.getWords(d)) {
+        for (int d = 1; d <= testDataset.getNumDocs(); ++d) {
+            for (Integer w : testDataset.getWords(d)) {
                 double sum = 0.0;
                 for (int t = 0; t < getNumTopics(); ++t) {
                      sum += getTheta(d, t) * getPhi(t, w.intValue()); 
@@ -197,6 +203,6 @@ public class LDA {
                 loglikelihood += Math.log(sum);
             }
         }
-        return Math.exp(-loglikelihood / testBow.getNumWords());
+        return Math.exp(-loglikelihood / testDataset.getNumWords());
     }
 }

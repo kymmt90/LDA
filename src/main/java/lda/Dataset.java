@@ -26,6 +26,15 @@ public class Dataset {
         bow = new BagOfWords(bagOfWordsFileName);
         vocabs = new Vocabularies(vocabsFileName);
     }
+    
+    public Dataset(BagOfWords bow) {
+        this.bow = bow;
+        this.vocabs = null;
+    }
+    
+    public BagOfWords getBow() {
+        return bow;
+    }
 
     public int getNumDocs() {
         return bow.getNumDocs();
@@ -52,14 +61,18 @@ public class Dataset {
     }
     
     public Vocabulary get(int id) {
-        return vocabs.get(id - 1);
+        return vocabs.get(id);
     }
     
     public int size() {
         return vocabs.size();
     }
     
-    public List<Vocabulary> vocabularies() {
-        return vocabs.vocabularies();
+    public Vocabularies getVocabularies() {
+        return vocabs;
+    }
+    
+    public List<Vocabulary> getVocabularyList() {
+        return vocabs.getVocabularyList();
     }
 }

@@ -159,10 +159,9 @@ public class LDACollapsedGibbsSamplerTest {
 
         @Before
         public void setUp() throws Exception {
-            BagOfWords bow = new BagOfWords("src/test/resources/docword.kos.txt");
+            Dataset dataset = new Dataset("src/test/resources/docword.kos.txt", "src/test/resources/vocab.kos.txt"); 
 
-            lda = new LDA(0.1, 0.1, 10, bow, LDAInferenceMethod.CGS);
-            lda.readVocabs("src/test/resources/vocab.kos.txt");
+            lda = new LDA(0.1, 0.1, 10, dataset, LDAInferenceMethod.CGS);
             sut = new LDACollapsedGibbsSampler();
             sut.setNumIteration(100);
         }

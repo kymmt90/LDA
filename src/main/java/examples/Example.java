@@ -18,7 +18,7 @@ package examples;
 
 import java.util.List;
 
-import lda.BagOfWords;
+import lda.Dataset;
 import lda.LDA;
 import lda.LDAInferenceMethod;
 
@@ -26,13 +26,12 @@ import org.apache.commons.lang3.tuple.Pair;
 
 public class Example {
     public static void main(String[] args) throws Exception {
-        BagOfWords bow = new BagOfWords("src/test/resources/docword.kos.txt");
+        Dataset dataset = new Dataset("src/test/resources/docword.kos.txt", "src/test/resources/vocab.kos.txt");
         
         final int numTopics = 10;
-        LDA lda = new LDA(0.1, 0.1, numTopics, bow, LDAInferenceMethod.CGS, "src/test/resources/lda.properties");
-        lda.readVocabs("src/test/resources/vocab.kos.txt");
+        LDA lda = new LDA(0.1, 0.1, numTopics, dataset, LDAInferenceMethod.CGS, "src/test/resources/lda.properties");
         lda.run();
-        System.out.println(lda.computePerplexity(lda.getBow()));
+        System.out.println(lda.computePerplexity(dataset));
 
         for (int t = 0; t < numTopics; ++t) {
             List<Pair<String, Double>> highRankVocabs = lda.getVocabsSortedByPhi(t);
