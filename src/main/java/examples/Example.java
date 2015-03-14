@@ -20,7 +20,7 @@ import java.util.List;
 
 import lda.Dataset;
 import lda.LDA;
-import lda.LDAInferenceMethod;
+import lda.InferenceMethod;
 
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -29,7 +29,7 @@ public class Example {
         Dataset dataset = new Dataset("src/test/resources/docword.kos.txt", "src/test/resources/vocab.kos.txt");
         
         final int numTopics = 10;
-        LDA lda = new LDA(0.1, 0.1, numTopics, dataset, LDAInferenceMethod.CGS, "src/test/resources/lda.properties");
+        LDA lda = new LDA(0.1, 0.1, numTopics, dataset, InferenceMethod.CGS, "src/test/resources/lda.properties");
         lda.run();
         System.out.println(lda.computePerplexity(dataset));
 

@@ -42,7 +42,7 @@ public class LDATest {
 
             BagOfWords bow = new BagOfWords("test", mockLoader);
 
-            sut = new LDA(0.1, 0.1, 10, bow, LDAInferenceMethod.CGS);
+            sut = new LDA(0.1, 0.1, 10, bow, InferenceMethod.CGS);
         }
 
         @Test
@@ -76,7 +76,7 @@ public class LDATest {
         @Before
         public void setUp() throws Exception {
             Dataset dataset = new Dataset("src/test/resources/docword.kos.txt", "src/test/resources/vocab.kos.txt"); 
-            sut = new LDA(0.1, 0.1, 10, dataset, LDAInferenceMethod.CGS);
+            sut = new LDA(0.1, 0.1, 10, dataset, InferenceMethod.CGS);
         }
         
         @After

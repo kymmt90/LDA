@@ -27,7 +27,7 @@ import org.junit.experimental.runners.Enclosed;
 import org.junit.runner.RunWith;
 
 @RunWith(Enclosed.class)
-public class LDACollapsedGibbsSamplerTest {
+public class CollapsedGibbsSamplerTest {
 //    public static class WhenReadMockData {
 //        LDACollapsedGibbsSampler sut;
 //        LDA lda;
@@ -154,15 +154,15 @@ public class LDACollapsedGibbsSamplerTest {
 //    }
     
     public static class WhenReadKosDataset {
-        LDACollapsedGibbsSampler sut;
+        CollapsedGibbsSampler sut;
         LDA lda;
 
         @Before
         public void setUp() throws Exception {
             Dataset dataset = new Dataset("src/test/resources/docword.kos.txt", "src/test/resources/vocab.kos.txt"); 
 
-            lda = new LDA(0.1, 0.1, 10, dataset, LDAInferenceMethod.CGS);
-            sut = new LDACollapsedGibbsSampler();
+            lda = new LDA(0.1, 0.1, 10, dataset, InferenceMethod.CGS);
+            sut = new CollapsedGibbsSampler();
             sut.setNumIteration(100);
         }
         

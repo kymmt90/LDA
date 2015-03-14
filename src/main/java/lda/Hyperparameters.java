@@ -16,16 +16,16 @@
 
 package lda;
 
-public class LDAHyperparameters {
+public class Hyperparameters {
     private Alpha alpha;
     private Beta beta;
     
-    public LDAHyperparameters(double alpha, double beta, int numTopics, int numVocabs) {
+    public Hyperparameters(double alpha, double beta, int numTopics, int numVocabs) {
         this.alpha = new Alpha(alpha, numTopics);
         this.beta  = new Beta(beta, numVocabs);
     }
     
-    public LDAHyperparameters(double alpha, double beta, int numTopics) {
+    public Hyperparameters(double alpha, double beta, int numTopics) {
         this.alpha = new Alpha(alpha, numTopics);
         this.beta  = new Beta(beta);
     }

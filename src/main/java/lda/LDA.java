@@ -22,11 +22,11 @@ import java.util.List;
 import org.apache.commons.lang3.tuple.Pair;
 
 public class LDA {
-    private LDAHyperparameters hyperparameters;
+    private Hyperparameters hyperparameters;
     private final int numTopics;
     private Dataset dataset;
-    private final LDAInference inference;
-    private LDAInferenceProperties properties;
+    private final Inference inference;
+    private InferenceProperties properties;
     private boolean trained;
 
     /**
@@ -37,11 +37,11 @@ public class LDA {
      * @param method inference method
      */
     public LDA(final double alpha, final double beta, final int numTopics,
-            final Dataset dataset, LDAInferenceMethod method) {
-        this.hyperparameters = new LDAHyperparameters(alpha, beta, numTopics);
+            final Dataset dataset, InferenceMethod method) {
+        this.hyperparameters = new Hyperparameters(alpha, beta, numTopics);
         this.numTopics       = numTopics;
         this.dataset         = dataset;
-        this.inference       = LDAInferenceFactory.getInstance(method);
+        this.inference       = InferenceFactory.getInstance(method);
         this.properties      = null;
         this.trained         = false;
     }
@@ -54,11 +54,11 @@ public class LDA {
      * @param method inference method
      */
     public LDA(final double alpha, final double beta, final int numTopics,
-            final BagOfWords bow, LDAInferenceMethod method) {
-        this.hyperparameters = new LDAHyperparameters(alpha, beta, numTopics);
+            final BagOfWords bow, InferenceMethod method) {
+        this.hyperparameters = new Hyperparameters(alpha, beta, numTopics);
         this.numTopics       = numTopics;
         this.dataset         = new Dataset(bow);
-        this.inference       = LDAInferenceFactory.getInstance(method);
+        this.inference       = InferenceFactory.getInstance(method);
         this.properties      = null;
         this.trained         = false;
     }
@@ -73,12 +73,12 @@ public class LDA {
      * @param propertiesFilePath the path of the properties file 
      */
     public LDA(final double alpha, final double beta, final int numTopics,
-            final Dataset dataset, LDAInferenceMethod method, String propertiesFilePath) {
-        this.hyperparameters = new LDAHyperparameters(alpha, beta, numTopics);
+            final Dataset dataset, InferenceMethod method, String propertiesFilePath) {
+        this.hyperparameters = new Hyperparameters(alpha, beta, numTopics);
         this.numTopics       = numTopics;
         this.dataset         = dataset;
-        this.inference       = LDAInferenceFactory.getInstance(method);
-        this.properties      = new LDAInferenceProperties();
+        this.inference       = InferenceFactory.getInstance(method);
+        this.properties      = new InferenceProperties();
         this.trained         = false;
         
         try {

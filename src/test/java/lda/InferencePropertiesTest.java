@@ -22,11 +22,11 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
-public class LDAInferencePropertiesTest {
-    LDAInferenceProperties sut;
+public class InferencePropertiesTest {
+    InferenceProperties sut;
     @Before
     public void setUp() throws Exception {
-        sut = new LDAInferenceProperties();
+        sut = new InferenceProperties();
         sut.load("src/test/resources/lda.properties");
     }
 

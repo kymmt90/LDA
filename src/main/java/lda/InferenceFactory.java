@@ -16,19 +16,21 @@
 
 package lda;
 
-public enum LDAInferenceMethod {
-    CGS("lda.LDACollapsedGibbsSampler"),
-    // more
-    ;
+public class InferenceFactory {
+    private InferenceFactory() {}
 
-    private String className;
-    
-    private LDAInferenceMethod(final String className) {
-        this.className = className;
-    }
-    
-    @Override
-    public String toString() {
-        return className;
+    /**
+     * Get the LDAInference instance specified by the argument
+     * @param method
+     * @return the instance which implements LDAInference
+     */
+    public static Inference getInstance(InferenceMethod method) {
+        Inference clazz = null;
+        try {
+            clazz = (Inference)Class.forName(method.toString()).newInstance();
+        } catch (ReflectiveOperationException roe) {
+            roe.printStackTrace();
+        }
+        return clazz;
     }
 }

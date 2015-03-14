@@ -22,11 +22,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-public class LDAInferenceProperties {
+public class InferenceProperties {
     PropertiesLoader loader = new PropertiesLoader();
     private Properties properties;
     
-    public LDAInferenceProperties() {
+    public InferenceProperties() {
         this.properties = new Properties();
     }
     

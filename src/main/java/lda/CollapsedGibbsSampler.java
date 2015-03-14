@@ -24,7 +24,7 @@ import org.apache.commons.lang3.tuple.Pair;
 import org.apache.commons.math3.distribution.EnumeratedIntegerDistribution;
 import org.apache.commons.math3.distribution.IntegerDistribution;
 
-public class LDACollapsedGibbsSampler implements LDAInference {
+public class CollapsedGibbsSampler implements Inference {
     private LDA lda;
     private Topics topics;
     private Documents documents;
@@ -36,12 +36,12 @@ public class LDACollapsedGibbsSampler implements LDAInference {
     // ready for Gibbs sampling
     private boolean ready;
 
-    public LDACollapsedGibbsSampler() {
+    public CollapsedGibbsSampler() {
         ready = false;
     }
 
     @Override
-    public void setUp(LDA lda, LDAInferenceProperties properties) {
+    public void setUp(LDA lda, InferenceProperties properties) {
         if (properties == null) {
             setUp(lda);
             return;

@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.tuple.Pair;
 
-public interface LDAInference {
+public interface Inference {
     /**
      * Set up for inference.
      * @param lda
@@ -33,7 +33,7 @@ public interface LDAInference {
      * @param lda
      * @param properties
      */
-    public void setUp(LDA lda, LDAInferenceProperties properties);
+    public void setUp(LDA lda, InferenceProperties properties);
     
     /**
      * Run model inference.
