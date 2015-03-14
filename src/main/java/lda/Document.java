@@ -36,9 +36,8 @@ public class Document {
         topicCount.decrementTopicCount(topicID);
     }
     
-    public void initializeTopicAssignment(int numTopics, long seed) {
-        if (numTopics <= 0) throw new IllegalArgumentException();
-        assignment.initialize(getDocLength(), numTopics, seed);
+    public void initializeTopicAssignment(long seed) {
+        assignment.initialize(getDocLength(), topicCount.size(), seed);
         for (int w = 0; w < getDocLength(); ++w) {
             incrementTopicCount(assignment.get(w));
         }

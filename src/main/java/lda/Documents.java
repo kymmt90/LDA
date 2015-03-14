@@ -65,7 +65,7 @@ public class Documents {
     
     void initializeTopicAssignment(Topics topics, long seed) {
         for (Document d : getDocuments()) {
-            d.initializeTopicAssignment(topics.numTopics(), seed);
+            d.initializeTopicAssignment(seed);
             for (int w = 0; w < d.getDocLength(); ++w) {
                 final int topicID = d.getTopicID(w);
                 final Topic topic = topics.get(topicID);

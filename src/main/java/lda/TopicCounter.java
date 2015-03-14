@@ -22,4 +22,8 @@ public class TopicCounter {
     public void decrementTopicCount(int topicID) {
         topicCount.decrement(topicID);
     }
+
+    public int size() {
+        return topicCount.size();
+    }
 }
