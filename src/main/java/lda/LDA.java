@@ -19,7 +19,16 @@ package lda;
 import java.io.IOException;
 import java.util.List;
 
+import lda.inference.Inference;
+import lda.inference.InferenceFactory;
+import lda.inference.InferenceMethod;
+import lda.inference.InferenceProperties;
+
 import org.apache.commons.lang3.tuple.Pair;
+
+import dataset.BagOfWords;
+import dataset.Dataset;
+import dataset.Vocabularies;
 
 public class LDA {
     private Hyperparameters hyperparameters;

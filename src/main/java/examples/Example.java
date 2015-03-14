@@ -18,18 +18,19 @@ package examples;
 
 import java.util.List;
 
-import lda.Dataset;
 import lda.LDA;
-import lda.InferenceMethod;
+import static lda.inference.InferenceMethod.*;
 
 import org.apache.commons.lang3.tuple.Pair;
+
+import dataset.Dataset;
 
 public class Example {
     public static void main(String[] args) throws Exception {
         Dataset dataset = new Dataset("src/test/resources/docword.kos.txt", "src/test/resources/vocab.kos.txt");
         
         final int numTopics = 10;
-        LDA lda = new LDA(0.1, 0.1, numTopics, dataset, InferenceMethod.CGS, "src/test/resources/lda.properties");
+        LDA lda = new LDA(0.1, 0.1, numTopics, dataset, CGS, "src/test/resources/lda.properties");
         lda.run();
         System.out.println(lda.computePerplexity(dataset));
 
