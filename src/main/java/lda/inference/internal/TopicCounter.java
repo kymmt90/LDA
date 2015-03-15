@@ -16,30 +16,30 @@
 
 package lda.inference.internal;
 
-public class TopicCounter {
+class TopicCounter {
     private AssignmentCounter topicCount;
 
-    public TopicCounter(int numTopics) {
+    TopicCounter(int numTopics) {
         this.topicCount = new AssignmentCounter(numTopics);
     }
 
-    public int getTopicCount(int topicID) {
+    int getTopicCount(int topicID) {
         return topicCount.get(topicID);
     }
     
-    public int getDocLength() {
+    int getDocLength() {
         return topicCount.getSum();
     }
     
-    public void incrementTopicCount(int topicID) {
+    void incrementTopicCount(int topicID) {
         topicCount.increment(topicID);
     }
     
-    public void decrementTopicCount(int topicID) {
+    void decrementTopicCount(int topicID) {
         topicCount.decrement(topicID);
     }
 
-    public int size() {
+    int size() {
         return topicCount.size();
     }
 }

@@ -20,10 +20,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class AssignmentCounter {
+class AssignmentCounter {
     private List<Integer> counter;
 
-    public AssignmentCounter(int size) {
+    AssignmentCounter(int size) {
         if (size <= 0) throw new IllegalArgumentException();
         this.counter = IntStream.generate(() -> 0)
                                 .limit(size)
@@ -31,29 +31,29 @@ public class AssignmentCounter {
                                 .collect(Collectors.toList());
     }
     
-    public int size() {
+    int size() {
         return counter.size();
     }
     
-    public int get(int id) {
+    int get(int id) {
         if (id < 0 || counter.size() <= id) {
             throw new IllegalArgumentException();
         }
         return counter.get(id);
     }
     
-    public int getSum() {
+    int getSum() {
         return counter.stream().reduce(Integer::sum).get();
     }
     
-    public void increment(int id) {
+    void increment(int id) {
         if (id < 0 || counter.size() <= id) {
             throw new IllegalArgumentException();
         }
         counter.set(id, counter.get(id) + 1);
     }
     
-    public void decrement(int id) {
+    void decrement(int id) {
         if (id < 0 || counter.size() <= id) {
             throw new IllegalArgumentException();
         }

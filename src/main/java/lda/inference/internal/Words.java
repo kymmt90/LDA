@@ -21,26 +21,26 @@ import java.util.List;
 
 import dataset.Vocabulary;
 
-public class Words {
+class Words {
     private List<Vocabulary> words;
     
-    public Words(List<Vocabulary> words) {
+    Words(List<Vocabulary> words) {
         if (words == null) throw new NullPointerException();
         this.words = words; 
     }
 
-    public int getNumWords() {
+    int getNumWords() {
         return words.size();
     }
     
-    public Vocabulary get(int id) {
+    Vocabulary get(int id) {
         if (id < 0 || words.size() <= id) {
             throw new IllegalArgumentException();
         }
         return words.get(id);
     }
     
-    public List<Vocabulary> getWords() {
+    List<Vocabulary> getWords() {
         return Collections.unmodifiableList(words);
     }
 }

@@ -16,30 +16,30 @@
 
 package lda.inference.internal;
 
-public class VocabularyCounter {
+class VocabularyCounter {
     private AssignmentCounter vocabCount;
     private int sumCount;
     
-    public VocabularyCounter(int numVocabs) {
+    VocabularyCounter(int numVocabs) {
         this.vocabCount = new AssignmentCounter(numVocabs);
         this.sumCount = 0;
     }
 
-    public int getVocabCount(int vocabID) {
+    int getVocabCount(int vocabID) {
         if (vocabCount.size() < vocabID) return 0;
         else return vocabCount.get(vocabID - 1);
     }
     
-    public int getSumCount() {
+    int getSumCount() {
         return sumCount;
     }
     
-    public void incrementVocabCount(int vocabID) {
+    void incrementVocabCount(int vocabID) {
         vocabCount.increment(vocabID - 1);
         ++sumCount;
     }
     
-    public void decrementVocabCount(int vocabID) {
+    void decrementVocabCount(int vocabID) {
         vocabCount.decrement(vocabID - 1);
         --sumCount;
     }

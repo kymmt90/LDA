@@ -26,10 +26,10 @@ import dataset.BagOfWords;
 import dataset.Vocabularies;
 import dataset.Vocabulary;
 
-public class Documents {
+class Documents {
     private List<Document> documents;
     
-    public Documents(LDA lda) {
+    Documents(LDA lda) {
         if (lda == null) throw new NullPointerException();
         
         documents = new ArrayList<>();
@@ -40,46 +40,46 @@ public class Documents {
         }
     }
     
-    private List<Vocabulary> getVocabularyList(int docID, BagOfWords bow, Vocabularies vocabs) {
+    List<Vocabulary> getVocabularyList(int docID, BagOfWords bow, Vocabularies vocabs) {
         assert docID > 0 && bow != null && vocabs != null;
         return bow.getWords(docID).stream()
                                   .map(id -> vocabs.get(id))
                                   .collect(Collectors.toList());
     }
 
-    public int getTopicID(int docID, int wordID) {
+    int getTopicID(int docID, int wordID) {
         return documents.get(docID - 1).getTopicID(wordID);
     }
     
-    public void setTopicID(int docID, int wordID, int topicID) {
+    void setTopicID(int docID, int wordID, int topicID) {
         documents.get(docID - 1).setTopicID(wordID, topicID);
     }
     
-    public Vocabulary getVocab(int docID, int wordID) {
+    Vocabulary getVocab(int docID, int wordID) {
         return documents.get(docID - 1).getVocabulary(wordID);
     }
     
-    public List<Vocabulary> getWords(int docID) {
+    List<Vocabulary> getWords(int docID) {
         return documents.get(docID - 1).getWords();
     }
     
-    public List<Document> getDocuments() {
+    List<Document> getDocuments() {
         return Collections.unmodifiableList(documents);
     }
     
-    public void incrementTopicCount(int docID, int topicID) {
+    void incrementTopicCount(int docID, int topicID) {
         documents.get(docID - 1).incrementTopicCount(topicID);
     }
     
-    public void decrementTopicCount(int docID, int topicID) {
+    void decrementTopicCount(int docID, int topicID) {
         documents.get(docID - 1).decrementTopicCount(topicID);
     }
     
-    public int getTopicCount(int docID, int topicID) {
+    int getTopicCount(int docID, int topicID) {
         return documents.get(docID - 1).getTopicCount(topicID);
     }
     
-    public double getTheta(int docID, int topicID, double alpha, double sumAlpha) {
+    double getTheta(int docID, int topicID, double alpha, double sumAlpha) {
         if (docID <= 0 || documents.size() < docID) throw new IllegalArgumentException();
         return documents.get(docID - 1).getTheta(topicID, alpha, sumAlpha);
     }
