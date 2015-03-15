@@ -30,7 +30,6 @@ import dataset.Vocabularies;
 
 public class Topics {
     private List<Topic> topics;
-    boolean ready;
     
     public Topics(LDA lda) {
         if (lda == null) throw new NullPointerException();
@@ -39,7 +38,6 @@ public class Topics {
         for (int t = 0; t < lda.getNumTopics(); ++t) {
             topics.add(new Topic(t, lda.getBow().getNumVocabs()));
         }
-        ready = false;
     }
     
     public int numTopics() {
