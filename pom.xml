@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>lda</groupId>
 	<artifactId>LDA</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.1</version>
 	<properties>
 		<project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
 	</properties>
@@ -75,7 +75,7 @@
 			</testResource>
 		</testResources>
 		<directory>/Users/Kohei/Works/eclipse_work/LDA/target</directory>
-		<finalName>LDA-0.0.1-SNAPSHOT</finalName>
+		<finalName>LDA-0.1</finalName>
 		<pluginManagement>
 			<plugins>
 				<plugin>
