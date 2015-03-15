@@ -43,46 +43,16 @@ public class LDA {
      * @param beta topic-vocab hyperparameter
      * @param numTopics the number of topics
      * @param dataset dataset
+     * @param bow bag-of-words
      * @param method inference method
      */
     public LDA(final double alpha, final double beta, final int numTopics,
             final Dataset dataset, InferenceMethod method) {
-        this.hyperparameters = new Hyperparameters(alpha, beta, numTopics);
-        this.numTopics       = numTopics;
-        this.dataset         = dataset;
-        this.inference       = InferenceFactory.getInstance(method);
-        this.properties      = null;
-        this.trained         = false;
+        this(alpha, beta, numTopics, dataset, method, InferenceProperties.PROPERTIES_FILE_NAME);
     }
     
-    /**
-     * @param alpha doc-topic hyperparameter
-     * @param beta topic-vocab hyperparameter
-     * @param numTopics the number of topics
-     * @param dataset dataset
-     * @param method inference method
-     */
-    public LDA(final double alpha, final double beta, final int numTopics,
-            final BagOfWords bow, InferenceMethod method) {
-        this.hyperparameters = new Hyperparameters(alpha, beta, numTopics);
-        this.numTopics       = numTopics;
-        this.dataset         = new Dataset(bow);
-        this.inference       = InferenceFactory.getInstance(method);
-        this.properties      = null;
-        this.trained         = false;
-    }
-    
-    /**
-     * @param alpha doc-topic hyperparameter
-     * @param beta topic-vocab hyperparameter
-     * @param numTopics the number of topics
-     * @param dataset dataset
-     * @param bow bag-of-words
-     * @param method inference method
-     * @param propertiesFilePath the path of the properties file 
-     */
-    public LDA(final double alpha, final double beta, final int numTopics,
-            final Dataset dataset, InferenceMethod method, String propertiesFilePath) {
+    LDA(final double alpha, final double beta, final int numTopics,
+        final Dataset dataset, InferenceMethod method, String propertiesFilePath) {
         this.hyperparameters = new Hyperparameters(alpha, beta, numTopics);
         this.numTopics       = numTopics;
         this.dataset         = dataset;

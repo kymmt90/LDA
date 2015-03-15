@@ -23,6 +23,8 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class InferenceProperties {
+    public static String PROPERTIES_FILE_NAME = "lda.properties";
+    
     PropertiesLoader loader = new PropertiesLoader();
     private Properties properties;
     

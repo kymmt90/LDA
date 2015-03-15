@@ -30,7 +30,7 @@ public class Example {
         Dataset dataset = new Dataset("src/test/resources/docword.kos.txt", "src/test/resources/vocab.kos.txt");
         
         final int numTopics = 10;
-        LDA lda = new LDA(0.1, 0.1, numTopics, dataset, CGS, "src/test/resources/lda.properties");
+        LDA lda = new LDA(0.1, 0.1, numTopics, dataset, CGS);
         lda.run();
         System.out.println(lda.computePerplexity(dataset));
 
