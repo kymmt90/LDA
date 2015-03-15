@@ -30,45 +30,6 @@ import dataset.Dataset;
 
 @RunWith(Enclosed.class)
 public class LDATest {
-//    public static class WhenReadMockData {
-//        LDA sut;
-//
-//        @Before
-//        public void setUp() throws Exception {
-//            InputStream stream = new ByteArrayInputStream("2\n3\n6\n1 1 1\n1 2 2\n2 3 3\n".getBytes());
-//            DatasetLoader mockLoader = mock(DatasetLoader.class);
-//            when(mockLoader.getInputStream("test")).thenReturn(stream);
-//
-//            BagOfWords bow = new BagOfWords("test", mockLoader);
-//
-//            sut = new LDA(0.1, 0.1, 10, bow, InferenceMethod.CGS);
-//        }
-//
-//        @Test
-//        public void getAlpha_returns_0point1() throws Exception {
-//            for (int t = 0; t < sut.getNumTopics(); ++t) {
-//                assertThat(sut.getAlpha(t), is(0.1));
-//            }
-//        }
-//        
-//        @Test
-//        public void getBeta_returns_0point1() {
-//            assertThat(sut.getBeta(), is(0.1));
-//        }
-//
-//        @Test
-//        public void getNumTopics_returns_10() throws Exception {
-//            assertThat(sut.getNumTopics(), is(10));
-//        }
-//        
-//        @Test
-//        public void getBow_returns_bow_numDocs_2_numVocabs_3_numWords_6() throws Exception {
-//            assertThat(sut.getBow().getNumDocs(),   is(2));
-//            assertThat(sut.getBow().getNumVocabs(), is(3));
-//            assertThat(sut.getBow().getNumWords(),  is(6));
-//        }
-//    }
-    
     public static class WhenReadKosDataset {
         LDA sut;
         
