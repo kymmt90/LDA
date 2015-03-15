@@ -24,6 +24,9 @@ class Alpha {
     private List<Double> alphas;
     
     Alpha(double alpha, int numTopics) {
+        if (alpha <= 0.0 || numTopics <= 0) {
+            throw new IllegalArgumentException();
+        }
         this.alphas = Stream.generate(() -> alpha)
                             .limit(numTopics)
                             .collect(Collectors.toList());
